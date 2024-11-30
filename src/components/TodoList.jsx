@@ -1,7 +1,8 @@
 import "./TodoList.css";
 import TodoItem from "./TodoItem.jsx";
 
-function TodoList() {
+function TodoList({ data }) {
+  console.log(data);
   return (
     <div className="todo-list">
       <div className="todo-header">
@@ -10,7 +11,9 @@ function TodoList() {
         <button className="todo-header-button">삭제</button>
       </div>
       <div>
-        <TodoItem />
+        {data.map((item) => (
+          <TodoItem text={item.text} completed={item.completed} />
+        ))}
       </div>
     </div>
   );
