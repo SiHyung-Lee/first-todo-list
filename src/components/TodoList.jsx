@@ -1,18 +1,29 @@
 import "./TodoList.css";
 import TodoItem from "./TodoItem.jsx";
 
-function TodoList({ data }) {
-  console.log(data);
+function TodoList({ data, onToggle, onToggleAll, onDelete }) {
+  const isAllCompleted =
+    data.length > 0 && data.every((item) => item.completed);
   return (
     <div className="todo-list">
       <div className="todo-header">
-        <input type="checkbox" className="todo-checkbox" />
+        <input
+          type="checkbox"
+          className="todo-checkbox"
+          checked={isAllCompleted}
+          onChange={(e) => onToggleAll(e.target.checked)}
+        />
         <p className="todo-header-text">할일</p>
         <button className="todo-header-button">삭제</button>
       </div>
       <div>
         {data.map((item) => (
-          <TodoItem text={item.text} completed={item.completed} />
+          <TodoItem
+            text={item.text}
+            completed={item.completed}
+            onToggle={() => onToggle(item.id)}
+            onDelete={() => onDelete(item.id)}
+          />
         ))}
       </div>
     </div>
