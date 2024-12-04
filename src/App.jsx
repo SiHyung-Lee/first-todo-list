@@ -6,7 +6,6 @@ import { useState, useRef } from "react";
 
 function App() {
   const idRef = useRef(0);
-  console.log(idRef);
   const [list, setList] = useState([]);
   const handleSubmit = (value) => {
     setList((prevList) =>

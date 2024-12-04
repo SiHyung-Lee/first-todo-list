@@ -15,12 +15,11 @@ function TodoList({ data, onToggle, onToggleAll, onDelete }) {
           onChange={(e) => onToggleAll(e.target.checked)}
         />
         <p className="todo-header-text">할일</p>
-        <button className="todo-header-button">
+        {completedCount > 0 && (
+          <button className="todo-header-button">
             {completedCount}개 선택 삭제
-        </button>
-          {completedCount > 0 && (
-
-          )}
+          </button>
+        )}
       </div>
       <div>
         {data.map((item) => (
