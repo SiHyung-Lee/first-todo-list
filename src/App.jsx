@@ -36,6 +36,9 @@ function App() {
   const handleDelete = (id) => {
     setList((prevList) => prevList.filter((item) => item.id !== id));
   };
+  const handleDeleteCompleted = () => {
+    setList((prevList) => prevList.filter((item) => !item.completed));
+  };
   return (
     <div>
       <Layout>
@@ -46,6 +49,7 @@ function App() {
           onToggle={handleToggle}
           onToggleAll={handleToggleAll}
           onDelete={handleDelete}
+          onDeleteCompleted={handleDeleteCompleted}
         />
       </Layout>
     </div>

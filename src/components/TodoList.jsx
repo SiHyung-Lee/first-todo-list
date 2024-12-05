@@ -1,7 +1,13 @@
 import "./TodoList.css";
 import TodoItem from "./TodoItem.jsx";
 
-function TodoList({ data, onToggle, onToggleAll, onDelete }) {
+function TodoList({
+  data,
+  onToggle,
+  onToggleAll,
+  onDelete,
+  onDeleteCompleted,
+}) {
   const isAllCompleted =
     data.length > 0 && data.every((item) => item.completed);
   const completedCount = data.filter((item) => item.completed).length;
@@ -16,7 +22,7 @@ function TodoList({ data, onToggle, onToggleAll, onDelete }) {
         />
         <p className="todo-header-text">할일</p>
         {completedCount > 0 && (
-          <button className="todo-header-button">
+          <button className="todo-header-button" onClick={onDeleteCompleted}>
             {completedCount}개 선택 삭제
           </button>
         )}
