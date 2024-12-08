@@ -63,6 +63,7 @@ function App() {
       return item.completed;
     }
   });
+
   return (
     <div>
       <Layout>
