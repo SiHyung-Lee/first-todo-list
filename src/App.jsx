@@ -5,6 +5,7 @@ import TodoList from "./components/TodoList.jsx";
 import { useState, useRef } from "react";
 
 function App() {
+  console.log("aaaa");
   const idRef = useRef(0);
   const [list, setList] = useState([]);
   const [filterType, setFilterType] = useState("ALL");
@@ -17,7 +18,7 @@ function App() {
         id: (idRef.current += 1),
         text: value,
         completed: false,
-      }),
+      })
     );
   };
   const handleToggle = (id) => {
@@ -27,14 +28,14 @@ function App() {
           return { ...item, completed: !item.completed };
         }
         return item;
-      }),
+      })
     );
   };
   const handleToggleAll = (flag) => {
     setList((prevList) =>
       prevList.map((item) => {
         return { ...item, completed: flag };
-      }),
+      })
     );
   };
   const handleDelete = (id) => {
@@ -50,7 +51,7 @@ function App() {
           return { ...item, text };
         }
         return item;
-      }),
+      })
     );
   };
   const filteredList = list.filter((item) => {
