@@ -54,6 +54,7 @@ function App() {
       })
     );
   };
+
   const filteredList = list.filter((item) => {
     if (filterType === "ALL") {
       return item;
