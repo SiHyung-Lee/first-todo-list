@@ -1,5 +1,5 @@
 import "./TodoList.css";
-import TodoItem from "./TodoItem.jsx";
+import TodoItem from "./TodoItem";
 
 function TodoList({
   data,
@@ -24,7 +24,9 @@ function TodoList({
         />
         <p className="todo-header-text">할일</p>
         {completedCount > 0 && (
-          <button className="todo-header-button" onClick={onDeleteCompleted}>
+          <button
+            className="todo-header-button"
+            onClick={onDeleteCompleted}>
             {completedCount}개 선택 삭제
           </button>
         )}
@@ -32,6 +34,7 @@ function TodoList({
       <div>
         {data.map((item) => (
           <TodoItem
+            key={item.id}
             id={item.id}
             text={item.text}
             completed={item.completed}

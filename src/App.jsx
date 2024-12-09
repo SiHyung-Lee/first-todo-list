@@ -1,66 +1,56 @@
-import Layout from "./components/Layout.jsx";
-import Title from "./components/Title.jsx";
-import Controls from "./components/Controls.jsx";
-import TodoList from "./components/TodoList.jsx";
-import { useState, useRef } from "react";
+import { useEffect, useReducer } from "react";
+import Layout from "./components/Layout";
+import Title from "./components/Title";
+import Controls from "./components/Controls";
+import TodoList from "./components/TodoList";
+import {
+  init,
+  initialState,
+  reducer,
+  ADD_TODO,
+  UPDATE_TODO,
+  DELETE_TODO,
+  TOGGLE_TODO,
+  TOGGLE_TODO_ALL,
+  DELE_TODO_COMPLETED,
+  SET_FILTER,
+} from "./reducer";
 
 function App() {
-  console.log("aaaa");
-  const idRef = useRef(0);
-  const [list, setList] = useState([]);
-  const [filterType, setFilterType] = useState("ALL");
+  const [state, dispatch] = useReducer(reducer, initialState, init);
+  useEffect(() => {
+    window.localStorage.setItem("TODO", JSON.stringify(state.list));
+    window.localStorage.setItem("ID", JSON.stringify(state.id));
+  }, [state]);
   const handleChangeFilterType = (type) => {
-    setFilterType(type);
+    dispatch({ type: SET_FILTER, payload: type });
   };
   const handleSubmit = (value) => {
-    setList((prevList) =>
-      prevList.concat({
-        id: (idRef.current += 1),
-        text: value,
-        completed: false,
-      })
-    );
+    dispatch({ type: ADD_TODO, payload: value });
   };
   const handleToggle = (id) => {
-    setList((prevList) =>
-      prevList.map((item) => {
-        if (item.id === id) {
-          return { ...item, completed: !item.completed };
-        }
-        return item;
-      })
-    );
+    dispatch({ type: TOGGLE_TODO, payload: id });
   };
   const handleToggleAll = (flag) => {
-    setList((prevList) =>
-      prevList.map((item) => {
-        return { ...item, completed: flag };
-      })
-    );
+    dispatch({ type: TOGGLE_TODO_ALL, payload: flag });
   };
   const handleDelete = (id) => {
-    setList((prevList) => prevList.filter((item) => item.id !== id));
+    dispatch({ type: DELETE_TODO, payload: id });
   };
   const handleDeleteCompleted = () => {
-    setList((prevList) => prevList.filter((item) => !item.completed));
+    dispatch({ type: DELE_TODO_COMPLETED });
   };
   const handleUpdate = (id, text) => {
-    setList((prevList) =>
-      prevList.map((item) => {
-        if (item.id === id) {
-          return { ...item, text };
-        }
-        return item;
-      })
-    );
+    dispatch({ type: UPDATE_TODO, payload: { id, text } });
   };
-  const filteredList = list.filter((item) => {
-    if (filterType === "ALL") {
-      return item;
-    } else if (filterType === "TODO") {
-      return !item.completed;
-    } else {
-      return item.completed;
+  const filteredList = state.list.filter((item) => {
+    switch (state.filterType) {
+      case "TODO":
+        return !item.completed;
+      case "COMPLETED":
+        return item.completed;
+      default:
+        return true;
     }
   });
 
@@ -69,7 +59,7 @@ function App() {
       <Layout>
         <Title />
         <Controls
-          filterType={filterType}
+          filterType={state.filterType}
           onChangeFilterType={handleChangeFilterType}
           onSubmit={handleSubmit}
         />
